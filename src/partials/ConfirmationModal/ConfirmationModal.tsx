@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConfirmationModals } from './config';
-import RootState from "../../store";
+import {RootState} from "../../store/store";
 import AbandonedCartModal from './modals/AbandonedCart';
 import TextAlertsModal from './modals/TextAlerts';
 import { useSelector } from 'react-redux';

@@ -1,7 +1,7 @@
 import React from 'react';
 // import PoweredByAWS from '@/components/PoweredByAWS/PoweredByAWS';
 // import TermsAndConditions from '@/partials/TermsAndConditions/TermsAndConditions';
-import './SecondaryLayout.css'; // Assuming you move styles to a CSS file
+// import './SecondaryLayout.css'; // Assuming you move styles to a CSS file
 
 const SecondaryLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

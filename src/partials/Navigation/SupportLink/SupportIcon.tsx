@@ -3,7 +3,7 @@ import React from 'react';
 
 const SupportIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => {
   return (
-    <svg x="0px" y="0px" viewBox="0 0 245.3 233.2" className="icon" {...props}>
+    <svg x="0px" y="0px" viewBox="0 0 245.3 233.2" height="20px" width="20px" className="icon" {...props}>
       <g>
         <path d="M149,10H26.6c-4.9,0-8.9,4-8.9,9v79.9c0,4.9,4,9,8.9,9h16.3l0.3,0.5v23c0.3,2.6,1.9,4.8,4.3,5.8 c0.8,0.3,1.6,0.5,2.4,0.5c1.6,0,3.2-0.6,4.6-1.8l22.7-22.1v-12c0,0,0,0-0.1,0.1l-25.4,24.9v-18c0.2-2.4-0.7-4.7-2.3-6.5 c-1.7-1.8-4-2.8-6.5-2.8H26.6c-0.2,0-0.4-0.2-0.4-0.5V19c0-0.3,0.2-0.5,0.4-0.5H149c0.2,0,0.4,0.2,0.4,0.5v67.6h8.5V19 C158,14,154,10,149,10z" />
         <rect x="38.9" y="31.3" width="72.3" height="8.5" />

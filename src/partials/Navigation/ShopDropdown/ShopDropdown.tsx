@@ -1,23 +1,18 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
-// import {RootState} from 'redux/store/RootState';
+import {RootState} from '../../../store/store';
 import LoadingFallback from "../../../components/LoadingFallback/LoadingFallback";
+
+
 
 
 
 const ShopDropdown: React.FC = () => {
 
-    const RootState = {
-      categories: [
-          { id: '1', name: 'Electronics' },
-          { id: '2', name: 'Clothing' },
-          { id: '3', name: 'Home' }
-      ],
-      formattedCategories: ['Electronics', 'Clothing', 'Home']
-    };
-    const categories= useSelector((state: typeof RootState) => state.categories);
-    const formattedCategories= useSelector((state: typeof RootState) => state.formattedCategories);
+    
+    const categories= useSelector((state: RootState) => state.categories.categories);
+    const formattedCategories= useSelector((state:RootState) => state.formattedCategories.formattedCategories);
 
     return (
         <div className="dropdown">

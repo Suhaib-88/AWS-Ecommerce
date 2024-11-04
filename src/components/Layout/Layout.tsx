@@ -1,6 +1,6 @@
 import React,{useEffect} from "react";
 import Navigation from "../../partials/Navigation/Navigation";
-// import Notifications from "../../public/Notifications";
+import Notifications from "../../public/Notifications";
 import LoadingFallback from "../LoadingFallback/LoadingFallback";
 import TextAlerts from "../../partials/TextAlerts/TextAlerts";
 import Footer from "../../partials/Footer/Footer";
@@ -8,9 +8,6 @@ import AppModal from "../../partials/AppModal/AppModal";
 import ConfirmationModal from "../../partials/ConfirmationModal/ConfirmationModal";
 import DemoGuideButton from "../../partials/DemoGuideButton/DemoGuideButton";
 import PreviousPageLink, {PreviousPageLinkProps} from "./PreviousPageLink";
-
-
-
 
 
 interface LayoutProps{

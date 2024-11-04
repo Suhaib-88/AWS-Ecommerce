@@ -1,0 +1,38 @@
+.user-dropdown-button {
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+    line-height: 1.15rem;
+  }
+  
+  .login-button {
+    border-color: var(--grey-600);
+    font-size: 1rem;
+  }
+  
+  .shopper {
+    font-weight: bold;
+    color: var(--blue-600);
+  }
+  
+  .username {
+    font-size: 1rem;
+  }
+  
+  .dropdown-menu {
+    max-width: 350px;
+  }
+  
+  .dropdown-item {
+    white-space: normal;
+  }
+  
+  .dropdown-item-title {
+    color: var(--blue-600);
+  }
+  
+  .dropdown-item:active .dropdown-item-title,
+  .dropdown-item-title:active {
+    color: var(--white);
+  }
+  

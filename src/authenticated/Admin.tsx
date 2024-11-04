@@ -5,49 +5,79 @@ import Layout from "../components/Layout/Layout";
 
 import { RepositoryFactory } from "../repositories/RepositoryFactory";
 
+
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
+
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  price: number;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+
 const ProductsRepository = RepositoryFactory.get('products');
 const UsersRepository = RepositoryFactory.get('users');
 const OrdersRepository = RepositoryFactory.get('orders');
 const CartsRepository = RepositoryFactory.get('carts');
 
 const Admin: React.FC = () => {
-  const [errors, setErrors] = useState<string[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [carts, setCarts] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [errors, setErrors] = useState<string[]>([]);
+
+
+  async function fetchProducts(){
+    try{
+  const fetchedProducts = await ProductsRepository.get();
+  console.log(fetchedProducts)
+    }
+    catch(error){
+      console.error('API fetch Error', error)
+    }
+  }
+
+
+
+
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
-        const [usersData, productsData, categoriesData, ordersData, cartsData] = await Promise.all([
-          UsersRepository.get(0, 300),
-          ProductsRepository.get(),
-          ProductsRepository.getCategories(),
-          OrdersRepository.get(),
-          CartsRepository.get()
-        ]);
+        const fetchedUsers = await UsersRepository.get(0, 300);
+        setUsers(fetchedUsers);
 
-        setUsers(usersData);
-        setProducts(productsData);
-        setCategories(categoriesData.data); // Assuming categoriesData contains the expected structure
-        setOrders(ordersData);
-        setCarts(cartsData.data); // Assuming cartsData contains the expected structure
+        const fetchedProducts = await ProductsRepository.get();
+        console.log(fetchedProducts)
+        setProducts(fetchedProducts);
+
+        const fetchedCategories = await ProductsRepository.getCategories();
+        setCategories(fetchedCategories.data);
+
+        const fetchedOrders = await OrdersRepository.get();
+        setOrders(fetchedOrders);
+
+        const fetchedCarts = await CartsRepository.get();
+        setCarts(fetchedCarts.data);
       } catch (error) {
-        setErrors((prevErrors) => [...prevErrors, 'Failed to load data.']);
-      } finally {
-        setLoading(false);
+        setErrors(prevErrors => [...prevErrors, error.message]);
       }
-    };
+    }
 
     fetchData();
   }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Layout>
@@ -57,15 +87,7 @@ const Admin: React.FC = () => {
 
           <div className="row">
             <h5>Users</h5>
-            {errors.length > 0 && <div className="alert alert-danger">{errors.join(', ')}</div>}
             <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
@@ -81,15 +103,6 @@ const Admin: React.FC = () => {
           <div className="row">
             <h5>Products</h5>
             <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
               <tbody>
                 {products.map((product) => (
                   <tr key={product.id}>
@@ -107,12 +120,6 @@ const Admin: React.FC = () => {
           <div className="row">
             <h5>Categories</h5>
             <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                </tr>
-              </thead>
               <tbody>
                 {categories.map((category) => (
                   <tr key={category.id}>
@@ -133,10 +140,16 @@ const Admin: React.FC = () => {
             <h2>Carts</h2>
             <p>{JSON.stringify(carts)}</p>
           </div>
+
+          <div className="row">
+            <button onClick={fetchProducts}>click</button>
+
+          </div>
         </div>
       </div>
     </Layout>
   );
 };
+
 
 export default Admin;

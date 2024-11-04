@@ -1,53 +1,59 @@
-// UserDropdown.tsx
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { signOut } from 'aws-amplify/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, redirect } from 'react-router-dom';
+import { RootState } from '../../../store/store'; // Adjust the import based on your store's file location
+import { signOut as amplifySignOut } from 'aws-amplify/auth';
 import swal from 'sweetalert';
-import { openModal } from '../../../store/modules/modal/modal'; // Adjust the import according to your project structure
-import { Modals } from '../../AppModal/config';
-import { Link } from 'react-router-dom';
+import "./UserDropdown.css"
 
 const UserDropdown: React.FC = () => {
+  const user = useSelector((state: RootState) => state.user?.user);
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user); // Adjust the state type according to your store
+  // const history = useHistory();
 
-  const username = user?.first_name || user?.username;
+  // Compute username
+  const username = user
+    ? user.first_name || user.username
+    : null;
+
+  // Compute gender
   const gender = user?.gender === 'M' ? 'Male' : user?.gender === 'F' ? 'Female' : null;
- 
+
+  // Format preferences
   const formattedPreferences = user?.persona
     ? user.persona
         .split('_')
-        .map((pref: string) =>
-          pref
-            .split(' ')
-            .map((word: string) => [word[0].toUpperCase(), ...word.slice(1)].join(''))
-            .join(' ')
-        )
+        .map(pref => pref.replace(/\b\w/g, char => char.toUpperCase()))
         .join(', ')
     : null;
 
+  // Handlers
   const switchShopper = () => {
-    dispatch(openModal(Modals.ShopperSelect));
+    // Trigger modal or dispatch action to open shopper select modal
+    dispatch({ type: 'OPEN_MODAL', payload: { modal: 'ShopperSelect' } });
   };
 
-  const handleSignOut = async () => {
+  const signOut = async () => {
     try {
-      await signOut({ global: true });
+      await amplifySignOut({ global: true });
       swal('You have been logged out!');
-    } catch (error:any) {
-      swal(error.message || 'An error occurred during sign out.');
+      redirect('/'); // Redirect to homepage after sign out
+    } catch (error) {
+      swal(String(error));
     }
   };
 
   return (
     <div>
       {!user ? (
-        <Link to="/auth" className="user-dropdown-button login-button btn">Sign In</Link>
+        <Link to="/auth" className="user-dropdown-button login-button btn">
+          Sign In
+        </Link>
       ) : (
         <>
           <button
             id="navbarDropdown"
-            className={`user-dropdown-button btn text-left text-lg-right ${!user.persona ? 'username' : ''}`}
+            className={`user-dropdown-button btn text-left ${user.persona ? '' : 'username'}`}
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -56,31 +62,30 @@ const UserDropdown: React.FC = () => {
               <>
                 <div className="shopper">Shopper:</div>
                 <div>
-                  <div>{username} - {user.age} years - {gender}</div>
+                  <div>
+                    {username} - {user.age} years - {gender}
+                  </div>
                   <div>{formattedPreferences}</div>
                 </div>
               </>
             ) : (
-              <>{username}</>
+              username
             )}
           </button>
-
           <div className="dropdown-menu px-3" aria-labelledby="navbarDropdown">
-            <a href="#" onClick={switchShopper} className="dropdown-item">
+            <button onClick={switchShopper} className="dropdown-item">
               <div className="dropdown-item-title">Switch shoppers</div>
               <div>Select another shopper with different shopping preferences</div>
-            </a>
-
-            <div className="dropdown-divider"></div>
-
+            </button>
+            <div className="dropdown-divider" />
             <Link to="/orders" className="dropdown-item">
               <div className="dropdown-item-title">Orders</div>
               <div>View orders placed by the current shopper profile</div>
             </Link>
-
-            <div className="dropdown-divider"></div>
-
-            <button className="dropdown-item dropdown-item-title" onClick={handleSignOut}>Sign Out</button>
+            <div className="dropdown-divider" />
+            <button onClick={signOut} className="dropdown-item dropdown-item-title">
+              Sign Out
+            </button>
           </div>
         </>
       )}

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useSelector } from "react-redux";
-import RootState from "../store";
-import Order from "../models/Order";
+import RootState from "../store/store";
+import Order from "../";
 import OrdersRepository from "../repositories/ordersRepository";
 import Layout from "../components/Layout/Layout";
 

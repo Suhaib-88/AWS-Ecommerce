@@ -1,55 +1,76 @@
-import { get,put, post } from 'aws-amplify/api';
+// ordersService.ts
+import { get, post, put } from 'aws-amplify/api';
 
-const resource= "/orders"
-const apiName= "demoServices"
+const resource = "/orders";
+const apiName = 'demoServices';
 
-interface Order {
-    id?: string;
-    [key:string]: any;
-}
+export const OrdersRepository = {
+  async get(): Promise<any> {
+    const restOperation = get({
+      apiName,
+      path: `${resource}/all`,
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 
+  async getOrderByID(orderID: string): Promise<any> {
+    if (!orderID) throw new Error("orderID required");
 
-const OrdersRepository = {
-    async get(): Promise<Order[]>{
-        const restOperation = await get({apiName:apiName, path:`${resource}/all`});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
-    
-    async getOrderByID(orderID:string): Promise<Order>{
-        const restOperation = await get({apiName:apiName, path:`${resource}/id/${orderID}`});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
+    const restOperation = get({
+      apiName,
+      path: `${resource}/id/${orderID}`,
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 
-    async getOrdersByUsername(username:string): Promise<Order[]>{
-        const restOperation = await get({apiName:apiName, path:`${resource}/username/${username}`});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
+  async getOrdersByUsername(username: string): Promise<any> {
+    if (!username) throw new Error("username required");
 
-    async updateOrder(order:Order): Promise<Order>{
-        const restOperation = await put({apiName:apiName, path:`${resource}/id/${order.id}`, options:{ body:order}});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
+    const restOperation = get({
+      apiName,
+      path: `${resource}/username/${username}`,
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 
-    async createOrder(order:Order): Promise<Order>{
-        if (!order.id) throw new Error("Order ID is required")
-        
-        order.channel= "web"
-        order.channel_detail= {
-            channel_id:1,
-            channel_geo:"US"};
+  async updateOrder(order: any): Promise<any> {
+    if (!order) throw new Error("order required");
 
-        delete order.ttl;
-        const restOperation = await post({apiName:apiName, path:resource, options:{ body:order}});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
+    const restOperation = put({
+      apiName,
+      path: `${resource}/id/${order.id}`,
+      options: {
+        body: order,
+      },
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 
+  async createOrder(order: any): Promise<any> {
+    if (!order) throw new Error("order required");
 
-}
+    order.channel = 'WEB';
+    order.channel_detail = {
+      channel_id: 1,
+      channel_geo: 'US',
+    };
 
+    delete order.ttl;
+
+    const restOperation = post({
+      apiName,
+      path: resource,
+      options: {
+        body: order,
+      },
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
+};
 
 export default OrdersRepository;

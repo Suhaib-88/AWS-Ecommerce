@@ -3,7 +3,7 @@ import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
 import swal from 'sweetalert';
 import { RepositoryFactory } from '../repositories/RepositoryFactory';
 import { signUrl } from "../util/signer";
-// import AmplifyStore from '@/store/store';
+import AmplifyStore from '../store/store';
 
 const RecommendationsRepository = RepositoryFactory.get('recommendations');
 const ProductsRepository = RepositoryFactory.get('products');
@@ -154,7 +154,7 @@ const Notifications: React.FC = () => {
     return window.location.pathname.toLowerCase() === '/location';
   };
 
-  const user = AmplifyStore.state.user;
+  const user = AmplifyStore.getState().user;
 
   const notificationsEnabled = () => {
     const enabled = import.meta.env.VITE_LOCATION_NOTIFICATION_URL && import.meta.env.VITE_LOCATION_NOTIFICATION_URL !== 'NotDeployed';

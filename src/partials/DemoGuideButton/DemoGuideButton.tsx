@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { openModal } from '@/store/actions'; // Adjust this import according to your project structure
+// import { openModal } from '../store/actions'; // Adjust this import according to your project structure
 import { Modals } from '../AppModal/config';
 // import './DemoGuideButton.css';
 
@@ -8,7 +8,8 @@ const DemoGuideButton: React.FC = () => {
     const dispatch = useDispatch();
 
     const openDemoGuide = () => {
-        dispatch(openModal(Modals.DemoGuide));
+        // dispatch(openModal(Modals.DemoGuide));
+        console.log('openDemoGuide');
     };
 
     return (

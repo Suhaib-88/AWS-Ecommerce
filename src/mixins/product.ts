@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RepositoryFactory } from '../repositories/RepositoryFactory';
-import AnalyticsHandler from '../analytics/AnalyticsHandler';
+// import AnalyticsHandler from '../analytics/AnalyticsHandler';
 import { capitalize } from '../util/capitalize';
 import { getProductImageUrl } from '../util/getProductImageUrl';
 
@@ -36,7 +36,8 @@ export const useProduct = (productId: string) => {
 
   const recordProductViewed = (feature: string, exp: string, discount: number) => {
     if (product) {
-      AnalyticsHandler.productViewed(user, product, feature, exp, discount);
+      
+      // AnalyticsHandler.productViewed(user, product, feature, exp, discount);
     }
   };
 

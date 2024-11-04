@@ -1,0 +1,33 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ecommerceui-dev-d1881-authRole",
+      "UnauthRoleArn": "arn:aws:iam::730335309649:role/amplify-ecommerceui-dev-d1881-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::730335309649:role/amplify-ecommerceui-dev-d1881-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ecommerceui-dev-d1881-deployment",
+      "UnauthRoleName": "amplify-ecommerceui-dev-d1881-unauthRole",
+      "StackName": "amplify-ecommerceui-dev-d1881",
+      "StackId": "arn:aws:cloudformation:us-east-1:730335309649:stack/amplify-ecommerceui-dev-d1881/657df5d0-952f-11ef-83a2-121f62cb17a7",
+      "AmplifyAppId": "d3s1ieuc8xymtj"
+    }
+  },
+  "cognitoenv": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ecommerceui-cognitoenv-0e806-authRole",
+      "UnauthRoleArn": "arn:aws:iam::730335309649:role/amplify-ecommerceui-cognitoenv-0e806-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::730335309649:role/amplify-ecommerceui-cognitoenv-0e806-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ecommerceui-cognitoenv-0e806-deployment",
+      "UnauthRoleName": "amplify-ecommerceui-cognitoenv-0e806-unauthRole",
+      "StackName": "amplify-ecommerceui-cognitoenv-0e806",
+      "StackId": "arn:aws:cloudformation:us-east-1:730335309649:stack/amplify-ecommerceui-cognitoenv-0e806/dc71db00-9531-11ef-b4d9-0affd4ec70a1",
+      "AmplifyAppId": "d3s1ieuc8xymtj"
+    },
+    "categories": {
+      "auth": {
+        "ecommerceuif37d7ca7": {}
+      }
+    }
+  }
+}

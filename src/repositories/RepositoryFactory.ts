@@ -1,6 +1,6 @@
-import ProductsRepository from "./productsRepository";
+import { ProductsRepository } from "./productsRepository";
 import SearchRepository from "./searchRepository";
-import RecommendationsRepository from "./recommendationsRepository";
+// import RecommendationsRepository from "./recommendationsRepository";
 import CartsRepository from "./cartsRepository";
 import UserRepository from "./usersRepository";
 import OrdersRepository from "./ordersRepository";
@@ -24,7 +24,7 @@ type RepositoryType= {
 const repositories: RepositoryType= {
     products: ProductsRepository,
     search: SearchRepository,
-    recommendations: RecommendationsRepository,
+    // recommendations: RecommendationsRepository,
     cart: CartsRepository,
     user: UserRepository,
     orders: OrdersRepository

@@ -1,58 +1,87 @@
-import { get,put, post } from 'aws-amplify/api';
+// cartsService.ts
+import { get, post, put } from 'aws-amplify/api';
 
-const resource= "/carts"
-const apiName= "demoServices"
+const resource = "/carts";
+const apiName = 'demoServices';
 
-interface Cart {
-    id?: string;
-    username?: string;
-    [key:string]: any;
-}
-interface AmazonPayPayload {
-    [key:string]: any;
-}
+export const CartsRepository = {
+  async get(): Promise<any> {
+    const restOperation = get({
+      apiName,
+      path: resource,
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 
-const CartsRepository = {
-    async get(): Promise<Cart[]>{
-        const restOperation = await get({apiName:apiName, path:resource});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
-    async getCartById(cartID:string): Promise<Cart>{
-        if (!cartID || cartID.length === 0) throw new Error("Cart ID is required")
-        const restOperation = await get({apiName:apiName, path:`${resource}/id/${cartID}`});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
-    async getCartByUsername(username:string): Promise<Cart>{
-        if (!username || username.length === 0) throw new Error("Username is required")
-        const restOperation = await get({apiName:apiName, path:`${resource}/username/${username}`});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
-    async createCart(username:string): Promise<Cart>{
-        if (!username || username.length === 0) throw new Error("Username is required")
+  async getCartByID(cartID: string): Promise<any> {
+    if (!cartID) throw new Error("cartID required");
 
+    const restOperation = get({
+      apiName,
+      path: `${resource}/${cartID}`,
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 
-        const payload={
-            username:username,
-        };
-        const restOperation = await post({apiName:apiName, path:resource, options:{ body:payload}});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
-    async updateCart(cart:Cart): Promise<Cart>{
-        if (!cart) throw new Error("Cart ID is required")
-        const restOperation = await put({apiName:apiName, path:`${resource}/${cart.id}`, options:{ body:cart}});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
-    async signAmazonPayPayload(payload:AmazonPayPayload): Promise<any>{
-        const restOperation = await post({apiName:apiName, path:`/sign`, options:{ body:payload}});
-        const {body} = await restOperation.response;
-        return body.json()
-    },
+  async getCartByUsername(username: string): Promise<any> {
+    if (!username) throw new Error("username required");
 
+    const restOperation = get({
+      apiName,
+      path: resource,
+      options: {
+        queryParams: { username },
+      },
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
+
+  async createCart(username: string): Promise<any> {
+    if (!username) throw new Error("username required");
+
+    const payload = {
+      username,
+    };
+
+    const restOperation = post({
+      apiName,
+      path: resource,
+      options: {
+        body: payload,
+      },
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
+
+  async updateCart(cart: any): Promise<any> {
+    if (!cart) throw new Error("cart required");
+
+    const restOperation = put({
+      apiName,
+      path: `${resource}/${cart.id}`,
+      options: {
+        body: cart,
+      },
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
+
+  async signAmazonPayPayload(payload: any): Promise<any> {
+    const restOperation = post({
+      apiName,
+      path: '/sign',
+      options: {
+        body: payload,
+      },
+    });
+    const { body } = await restOperation.response;
+    return body.json();
+  },
 };
 
 export default CartsRepository;

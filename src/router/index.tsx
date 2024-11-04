@@ -5,7 +5,7 @@ import React, { lazy } from 'react';
 import { Route, BrowserRouter as Router, Routes, Navigate, useLocation } from 'react-router-dom';
 import Admin from '../authenticated/Admin';
 // import { Hub, Auth } from 'aws-amplify';
-// import AmplifyStore from '@/store';
+// import Store from '../store/store';
 // import { RepositoryFactory } from '../repositories/RepositoryFactory';
 // import { AnalyticsHandler } from '../analytics/AnalyticsHandler';
 
@@ -17,8 +17,8 @@ import Admin from '../authenticated/Admin';
 // const CategoryDetail = lazy(() => import('../public/CategoryDetail'));
 // // const Live = lazy(() => import('..//public/Live'));
 // const Help = lazy(() => import('..//public/Help'));
-// const Cart = lazy(() => import('..//public/Cart'));
-// const AuthScreen = lazy(() => import('..//public/Auth'));
+const Cart = lazy(() => import('..//public/Cart'));
+const AuthScreen = lazy(() => import('..//public/Auth'));
 // const Checkout = lazy(() => import('..//public/Checkout'));
 // // const Location = lazy(() => import('..//public/Location'));
 // const Collections = lazy(() => import('../public/Collection'));
@@ -151,11 +151,11 @@ const AppRouter: React.FC = () => {
         {/* <Route path="/live" element={<Live />} /> */}
         {/* <Route path="/help" element={<Help />} />
         <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
-        <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} /> */} 
         <Route path="/admin" element={<Admin />} />
-        {/* <Route path="/auth" element={<AuthScreen />} />
-        <Route path="/shopper-select" element={<PrivateRoute><ShopperSelectPage /></PrivateRoute>} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/auth" element={<AuthScreen/>}/>
+        {/* // <Route path="/shopper-select" element={<PrivateRoute><ShopperSelectPage /></PrivateRoute>} /> */}
         {/* <Route path="/location" element={<PrivateRoute><Location /></PrivateRoute>} /> */}
         {/* <Route path="/collections" element={<PrivateRoute><Collections /></PrivateRoute>} /> */} 
       </Routes>

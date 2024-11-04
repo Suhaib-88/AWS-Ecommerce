@@ -1,8 +1,16 @@
 {
   
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"]
+      },
+      "allowJs": true,        // Allow JavaScript files in the project
+      "checkJs": false,       // (Optional) Enable or disable type checking for JS files
+      "outDir": "./dist",     // Specify the output directory for compiled code
+      "esModuleInterop": true // Ensure compatibility with ES modules
+    },
+    "include": ["src/**/*.ts", "src/**/*.js", "src/a.tsx"],  // Include both TypeScript and JavaScript files
+
+    
 }

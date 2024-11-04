@@ -16,8 +16,8 @@ const SearchRepo = {
             options: {
                 queryParams: {
                     searchTerm: val,
-                    size,
-                    offset
+                    // size,
+                    // offset
                 }
             }
         });

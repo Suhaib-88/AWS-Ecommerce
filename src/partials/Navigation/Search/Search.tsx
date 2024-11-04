@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store'; // Adjust according to your Redux store structure
+import { RootState } from '../../../store/store'; // Adjust according to your Redux store structure
 import LoadingFallback from '../../../components/LoadingFallback/LoadingFallback';
 import SearchItem from './SearchItem/SearchItem';
-import { RepositoryFactory } from '@/repositories/RepositoryFactory';
-import { AnalyticsHandler } from '@/analytics/AnalyticsHandler';
+import { RepositoryFactory } from '../../../repositories/RepositoryFactory';
+// import { personalizeUserID, personalizeRecommendationsForVisitor } from '../../../store/store';
+// import { AnalyticsHandler } from '@/analytics/AnalyticsHandler';
 
 const SearchRepository = RepositoryFactory.get('search');
 const RecommendationsRepository = RepositoryFactory.get('recommendations');
 const ProductsRepository = RepositoryFactory.get('products');
-
 const EXPERIMENT_FEATURE = 'search_results';
 const DISPLAY_SEARCH_PAGE_SIZE = 10;
 const EXTENDED_SEARCH_PAGE_SIZE = 25;
 
 const Search: React.FC = () => {
   const user = useSelector((state: RootState) => state.user);
-  const personalizeUserID = useSelector((state: RootState) => state.personalizeUserID);
-  const personalizeRecommendationsForVisitor = useSelector(
-    (state: RootState) => state.personalizeRecommendationsForVisitor
-  );
+  const ispersonalizeUserID = useSelector(personalizeUserID);
+  const isPersonalized = useSelector(personalizeRecommendationsForVisitor);
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [inputFocused, setInputFocused] = useState<boolean>(false);
@@ -29,7 +27,7 @@ const Search: React.FC = () => {
   const [searchError, setSearchError] = useState<string | null>(null);
 
   const handleSearch = async (val: string) => {
-    const size = personalizeRecommendationsForVisitor
+    const size = isPersonalized
       ? EXTENDED_SEARCH_PAGE_SIZE * Math.max(1, 4 - Math.min(val.length, 3))
       : DISPLAY_SEARCH_PAGE_SIZE;
 
@@ -37,7 +35,7 @@ const Search: React.FC = () => {
       const response = await SearchRepository.searchProducts(val, size);
       const rerankedItems = await rerank(response);
       const lookupResults = await lookupProducts(rerankedItems);
-      AnalyticsHandler.productSearched(user, val, lookupResults.length);
+      // AnalyticsHandler.productSearched(user, val, lookupResults.length);
     } catch (error: any) {
       if (error.response) {
         if (error.response.status === 404) {
@@ -54,8 +52,8 @@ const Search: React.FC = () => {
   };
 
   const rerank = async (items: any[]) => {
-    if (personalizeRecommendationsForVisitor && items.length > 0) {
-      const { body } = await RecommendationsRepository.getRerankedItems(personalizeUserID, items, EXPERIMENT_FEATURE);
+    if (isPersonalized && items.length > 0) {
+      const { body } = await RecommendationsRepository.getRerankedItems(ispersonalizeUserID, items, EXPERIMENT_FEATURE);
       const data = await body.json();
       setIsReranked(JSON.stringify(items) !== JSON.stringify(data));
       return data.slice(0, DISPLAY_SEARCH_PAGE_SIZE);
