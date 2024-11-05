@@ -20,14 +20,13 @@ const App: React.FC = () => {
 
   return (
     <div id= "app">
-{/*       
+      
     <Authenticator>
     {({ signOut }) => (
       <main>
-        <header className='App-header'> */}
-          {/* Quiz Component */}
+        <header className='App-header'>
           <AppRouter />
-          {/* Sign Out Button
+         
           <button 
             onClick={signOut} 
             style={{ 
@@ -42,10 +41,10 @@ const App: React.FC = () => {
         </header>
       </main>
     )}
-    </Authenticator> */}
+    </Authenticator>
 
     </div>
   )
 }
 
-export default App
+export default withAuthenticator(App)
